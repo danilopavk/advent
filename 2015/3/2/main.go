@@ -5,18 +5,26 @@ import (
 	"os"
 )
 
-// Learned how sets work in golang, or the lack of them!
+// Small tweek from puzzle 1, alternating between 2 santas.
 func main() {
 	content, err := os.ReadFile("input")
 	if err != nil {
 		fmt.Println(err)
 	}
 	santa := coordinates{0, 0}
+	robot := coordinates{0, 0}
 	locations := make(map[coordinates]struct{})
 	locations[santa] = struct{}{}
+	santaMoves := true
 	for _, c := range content {
-		santa = move(santa, c)
-		locations[santa] = struct{}{}
+		if santaMoves {
+			santa = move(santa, c)
+			locations[santa] = struct{}{}
+		} else {
+			robot = move(robot, c)
+			locations[robot] = struct{}{}
+		}
+		santaMoves = !santaMoves
 	}
 	fmt.Println(len(locations))
 }
