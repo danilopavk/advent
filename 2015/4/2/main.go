@@ -9,18 +9,16 @@ import (
     
 var text = "iwrupvqb"
 
-// Where I learned:
-// 1. How to work with hashes 
-// 2. That string s are compared with ==, unlike in java. You can compare most things
-// with ==, even structs, but not slices, maps and functions
-// 3. string appears to also be a slice, since you can apply similar functions to it
+// Nothing new learned, just adjusted the task to get 6 zeros, and to
+// start with the solution of the last task, because if the number doesn't
+// start with five zeros, it also does not start with 6
 func main() {
-	counter := 1
+	counter := 346386
 
     for {
 		test := getFirstFiveHash(counter)
-		if test == "00000" {
-			fmt.Println(test)
+		if test == "000000" {
+			fmt.Println(counter)
 			return
 		}
 		counter++
@@ -31,5 +29,5 @@ func getFirstFiveHash(counter int) string {
 	beforeHash := text + strconv.Itoa(counter)
 	hash := md5.Sum([]byte(beforeHash))
     hashString := hex.EncodeToString(hash[:])
-	return hashString[:5]
+	return hashString[:6]
 }
