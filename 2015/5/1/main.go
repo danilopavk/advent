@@ -9,20 +9,20 @@ import (
 // Little bit more of shuffling chars to strings and similar, but not much new here
 func main() {
 	file, err := os.Open("input")
-    if err != nil {
-        fmt.Println("Error opening file:", err)
-        return
-    }
-    defer file.Close() 
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+	defer file.Close()
 
-    scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(file)
 	var score int = 0
-    for scanner.Scan() {
-        line := scanner.Text()
+	for scanner.Scan() {
+		line := scanner.Text()
 		if isNice(line) {
 			score++
 		}
-    }
+	}
 
 	fmt.Println(score)
 }
@@ -41,7 +41,7 @@ func isNice(line string) bool {
 	return true
 }
 
-func hasNaughty(line string) bool{
+func hasNaughty(line string) bool {
 	var previous *rune
 	for _, char := range line {
 		if previous != nil && isNaughty(*previous, char) {
@@ -53,10 +53,11 @@ func hasNaughty(line string) bool{
 }
 
 var naughty = map[string]struct{}{"ab": {}, "cd": {}, "pq": {}, "xy": {}}
+
 func isNaughty(first rune, second rune) bool {
 	together := string(first) + string(second)
 	_, exists := naughty[together]
-	return exists;
+	return exists
 }
 
 func hasConsecutive(line string) bool {

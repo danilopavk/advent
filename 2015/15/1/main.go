@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// Brute force algorithm - all combinations are calculated, and one with the highest 
+// Brute force algorithm - all combinations are calculated, and one with the highest
 // is returned
 func main() {
 	file, err := os.Open("../../../input")
@@ -27,11 +27,11 @@ func main() {
 }
 
 func iterateVariations(ingredients []Ingredient) int {
-	max := 0;
+	max := 0
 	for first := 0; first <= 100; first++ {
-		for second := 0; second <= 100 - first; second++ {
-			for third := 0; third <= 100 - first - second; third++ {
-				for forth := 0; forth <= 100 - first - second - third; forth++ {
+		for second := 0; second <= 100-first; second++ {
+			for third := 0; third <= 100-first-second; third++ {
+				for forth := 0; forth <= 100-first-second-third; forth++ {
 					value := calculate(ingredients, first, second, third, forth)
 					if value > max {
 						max = value
@@ -44,10 +44,10 @@ func iterateVariations(ingredients []Ingredient) int {
 }
 
 func calculate(ingredients []Ingredient, first, second, third, forth int) int {
-	capacity := ingredients[0].capacity * first + ingredients[1].capacity * second + ingredients[2].capacity * third + ingredients[3].capacity * forth
-	durability := ingredients[0].durability * first + ingredients[1].durability * second + ingredients[2].durability * third + ingredients[3].durability * forth
-	flavor := ingredients[0].flavor * first + ingredients[1].flavor * second + ingredients[2].flavor * third + ingredients[3].flavor * forth
-	texture := ingredients[0].texture * first + ingredients[1].texture * second + ingredients[2].texture * third + ingredients[3].texture * forth
+	capacity := ingredients[0].capacity*first + ingredients[1].capacity*second + ingredients[2].capacity*third + ingredients[3].capacity*forth
+	durability := ingredients[0].durability*first + ingredients[1].durability*second + ingredients[2].durability*third + ingredients[3].durability*forth
+	flavor := ingredients[0].flavor*first + ingredients[1].flavor*second + ingredients[2].flavor*third + ingredients[3].flavor*forth
+	texture := ingredients[0].texture*first + ingredients[1].texture*second + ingredients[2].texture*third + ingredients[3].texture*forth
 	if capacity <= 0 || durability <= 0 || flavor <= 0 || texture <= 0 {
 		return 0
 	}

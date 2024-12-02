@@ -9,20 +9,20 @@ import (
 // The algorithm was a bit more fun!
 func main() {
 	file, err := os.Open("input")
-    if err != nil {
-        fmt.Println("Error opening file:", err)
-        return
-    }
-    defer file.Close() 
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+	defer file.Close()
 
-    scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(file)
 	var score int = 0
-    for scanner.Scan() {
-        line := scanner.Text()
+	for scanner.Scan() {
+		line := scanner.Text()
 		if isNice(line) {
 			score++
 		}
-    }
+	}
 
 	fmt.Println(score)
 }
@@ -31,13 +31,13 @@ func isNice(line string) bool {
 	return hasSkipPair(line) && hasDoublePair(line)
 }
 
-func hasSkipPair(line string) bool{
+func hasSkipPair(line string) bool {
 	if len(line) < 3 {
 		return false
 	}
 	secondLast := line[0]
 	last := line[1]
-	for i:= 2; i < len(line); i++ {
+	for i := 2; i < len(line); i++ {
 		next := line[i]
 		if next == secondLast {
 			return true
@@ -45,7 +45,7 @@ func hasSkipPair(line string) bool{
 		secondLast = last
 		last = next
 	}
- 	return false
+	return false
 }
 
 func hasDoublePair(line string) bool {
@@ -55,7 +55,7 @@ func hasDoublePair(line string) bool {
 	}
 	lastChar := line[1]
 	lastSeq := string(line[0]) + string(lastChar)
-	allPairs := map[string]struct{} {lastSeq: {}}
+	allPairs := map[string]struct{}{lastSeq: {}}
 	lastSeqIsOnlySeq := true
 	for i := 2; i < len(line); i++ {
 		nextChar := line[i]
@@ -79,6 +79,5 @@ func hasDoublePair(line string) bool {
 		lastChar = nextChar
 		lastSeq = nextSeq
 	}
- 	return false
+	return false
 }
-

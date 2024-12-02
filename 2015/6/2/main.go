@@ -12,30 +12,33 @@ import (
 // little changes incalculation, nothing more
 func main() {
 	file, err := os.Open("input")
-    if err != nil {
-        fmt.Println("Error opening file:", err)
-        return
-    }
-    defer file.Close() 
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+	defer file.Close()
 
 	// set up lights
-	lights := map[int]map[int]int {}
+	lights := map[int]map[int]int{}
 	for i := 0; i < 1000; i++ {
-		lights[i] = map[int]int {}
+		lights[i] = map[int]int{}
 		for j := 0; j < 1000; j++ {
 			lights[i][j] = 0
 		}
 	}
-    scanner := bufio.NewScanner(file)
-    for scanner.Scan() {
-        line := scanner.Text()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
 		instruction := parse(line)
 		switch instruction.method {
-			case turnOn: handleTurnOn(instruction, lights)
-			case turnOff: handleTurnOff(instruction, lights)
-			case toggle: handleToggle(instruction, lights)
+		case turnOn:
+			handleTurnOn(instruction, lights)
+		case turnOff:
+			handleTurnOff(instruction, lights)
+		case toggle:
+			handleToggle(instruction, lights)
 		}
-    }
+	}
 	// calculate total unlit
 	score := 0
 	for _, row := range lights {
@@ -46,7 +49,7 @@ func main() {
 	fmt.Println(score)
 }
 
-func handleTurnOn(instruction instruction, lights  map[int]map[int]int) {
+func handleTurnOn(instruction instruction, lights map[int]map[int]int) {
 	for i := instruction.fromX; i <= instruction.fromY; i++ {
 		for j := instruction.toX; j <= instruction.toY; j++ {
 			lights[i][j] = lights[i][j] + 1
@@ -54,17 +57,17 @@ func handleTurnOn(instruction instruction, lights  map[int]map[int]int) {
 	}
 }
 
-func handleTurnOff(instruction instruction, lights  map[int]map[int]int) {
+func handleTurnOff(instruction instruction, lights map[int]map[int]int) {
 	for i := instruction.fromX; i <= instruction.fromY; i++ {
 		for j := instruction.toX; j <= instruction.toY; j++ {
-			if (lights[i][j] > 0) {
+			if lights[i][j] > 0 {
 				lights[i][j] = lights[i][j] - 1
 			}
 		}
 	}
 }
 
-func handleToggle(instruction instruction, lights  map[int]map[int]int) {
+func handleToggle(instruction instruction, lights map[int]map[int]int) {
 	for i := instruction.fromX; i <= instruction.fromY; i++ {
 		for j := instruction.toX; j <= instruction.toY; j++ {
 			lights[i][j] = lights[i][j] + 2
@@ -73,7 +76,7 @@ func handleToggle(instruction instruction, lights  map[int]map[int]int) {
 }
 func parse(line string) instruction {
 	method := getMethod(line)
-	rest := strings.Replace(line, string(method) + " ", "", 1)
+	rest := strings.Replace(line, string(method)+" ", "", 1)
 	parts := strings.Split(rest, " ")
 	from := strings.Split(parts[0], ",")
 	fromX, _ := strconv.Atoi(from[0])
@@ -95,16 +98,17 @@ func getMethod(line string) method {
 }
 
 type instruction struct {
-	fromX int
-	fromY int
-	toX int
-	toY int
+	fromX  int
+	fromY  int
+	toX    int
+	toY    int
 	method method
 }
 
 type method string
+
 const (
-	turnOn method = "turn on"
+	turnOn  method = "turn on"
 	turnOff method = "turn off"
-	toggle method = "toggle"
+	toggle  method = "toggle"
 )

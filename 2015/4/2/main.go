@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strconv"
 )
-    
+
 var text = "iwrupvqb"
 
 // Nothing new learned, just adjusted the task to get 6 zeros, and to
@@ -15,7 +15,7 @@ var text = "iwrupvqb"
 func main() {
 	counter := 346386
 
-    for {
+	for {
 		test := getFirstFiveHash(counter)
 		if test == "000000" {
 			fmt.Println(counter)
@@ -28,6 +28,6 @@ func main() {
 func getFirstFiveHash(counter int) string {
 	beforeHash := text + strconv.Itoa(counter)
 	hash := md5.Sum([]byte(beforeHash))
-    hashString := hex.EncodeToString(hash[:])
+	hashString := hex.EncodeToString(hash[:])
 	return hashString[:6]
 }

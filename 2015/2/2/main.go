@@ -10,17 +10,17 @@ import (
 
 // nothing new to learn, but it was fun to modify to recalculate
 func main() {
-    file, err := os.Open("input")
-    if err != nil {
-        fmt.Println("Error opening file:", err)
-        return
-    }
-    defer file.Close() 
+	file, err := os.Open("input")
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+	defer file.Close()
 
-    scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(file)
 	var score int64 = 0
-    for scanner.Scan() {
-        line := scanner.Text()
+	for scanner.Scan() {
+		line := scanner.Text()
 		dimension := parse(line)
 		score += calculateScore(dimension)
 	}
@@ -58,32 +58,10 @@ func parse(line string) dimension {
 	l, _ := strconv.ParseInt(parts[1], 10, 64)
 	h, _ := strconv.ParseInt(parts[2], 10, 64)
 	return dimension{w, l, h}
- }
+}
 
 type dimension struct {
 	w int64
 	l int64
 	h int64
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

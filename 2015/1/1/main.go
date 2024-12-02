@@ -13,7 +13,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-		
+
 	result := 0
 	for _, c := range content {
 		if c == '(' {
