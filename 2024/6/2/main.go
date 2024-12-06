@@ -22,7 +22,7 @@ func main() {
 	var yLength int
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		input := scanner.Text()	
+		input := scanner.Text()
 		xLength = len(input)
 		for i, c := range input {
 			r := rune(c)
@@ -37,7 +37,7 @@ func main() {
 
 		yLength++
 	}
-	
+
 	circular := 0
 	for x := 0; x < xLength; x++ {
 		for y := 0; y < yLength; y++ {
@@ -78,31 +78,39 @@ func isCircular(guard point, direction rune, obstacles map[point]bool, xLength i
 			if obstacles[nextPoint] {
 				direction = change(direction)
 				continue
-			} 
-			
+			}
+
 			guard = nextPoint
 			moved = true
 		}
- 	}
+	}
 	return false
 }
 
 func change(direction rune) rune {
 	switch direction {
-	case '>': return 'v'
-	case 'v': return '<'
-	case '<': return '^'
-	case '^': return '>'
+	case '>':
+		return 'v'
+	case 'v':
+		return '<'
+	case '<':
+		return '^'
+	case '^':
+		return '>'
 	}
 	return '>'
 }
 
 func nextPoint(guard point, direction rune) point {
 	switch direction {
-	case '>': return point{guard.x + 1, guard.y}
-	case 'v': return point{guard.x, guard.y + 1}
-	case '<': return point{guard.x - 1, guard.y}
-	case '^': return point{guard.x, guard.y - 1}
+	case '>':
+		return point{guard.x + 1, guard.y}
+	case 'v':
+		return point{guard.x, guard.y + 1}
+	case '<':
+		return point{guard.x - 1, guard.y}
+	case '^':
+		return point{guard.x, guard.y - 1}
 	}
 	return guard
 }

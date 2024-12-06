@@ -22,7 +22,7 @@ func main() {
 	var y int
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		input := scanner.Text()	
+		input := scanner.Text()
 		x = len(input)
 		for i, c := range input {
 			r := rune(c)
@@ -41,7 +41,6 @@ func main() {
 	visitedCount := 0
 	visited := make(map[point]bool)
 
-
 	for guard.x >= 0 && guard.x < x && guard.y >= 0 && guard.y < y {
 		if !visited[guard] {
 			visited[guard] = true
@@ -54,8 +53,8 @@ func main() {
 			if obstacles[nextPoint] {
 				direction = change(direction)
 				continue
-			} 
-			
+			}
+
 			guard = nextPoint
 			moved = true
 		}
@@ -65,20 +64,28 @@ func main() {
 
 func change(direction rune) rune {
 	switch direction {
-	case '>': return 'v'
-	case 'v': return '<'
-	case '<': return '^'
-	case '^': return '>'
+	case '>':
+		return 'v'
+	case 'v':
+		return '<'
+	case '<':
+		return '^'
+	case '^':
+		return '>'
 	}
 	return '>'
 }
 
 func nextPoint(guard point, direction rune) point {
 	switch direction {
-	case '>': return point{guard.x + 1, guard.y}
-	case 'v': return point{guard.x, guard.y + 1}
-	case '<': return point{guard.x - 1, guard.y}
-	case '^': return point{guard.x, guard.y - 1}
+	case '>':
+		return point{guard.x + 1, guard.y}
+	case 'v':
+		return point{guard.x, guard.y + 1}
+	case '<':
+		return point{guard.x - 1, guard.y}
+	case '^':
+		return point{guard.x, guard.y - 1}
 	}
 	return guard
 }
