@@ -16,7 +16,7 @@ func main() {
 	defer file.Close()
 
 	score := 0
-	
+
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		input := scanner.Text()
@@ -26,19 +26,18 @@ func main() {
 		}
 	}
 
-	
 	fmt.Println(score)
 }
 
 func parse(input string) calibration {
 	parts := strings.Split(input, ":")
-	
+
 	result, _ := strconv.Atoi(parts[0])
 
 	values := []int{}
 
 	trimmedValuesStr := strings.Trim(parts[1], " ")
-	valuesParts := strings.Split(trimmedValuesStr, " ") 
+	valuesParts := strings.Split(trimmedValuesStr, " ")
 	for i := 0; i < len(valuesParts); i++ {
 		valueStr := valuesParts[i]
 		value, _ := strconv.Atoi(valueStr)
@@ -53,17 +52,17 @@ func isValid(calibration calibration) bool {
 }
 
 func scoreReached(equation calibration, score int) bool {
-	if (len(equation.values) == 0) {
+	if len(equation.values) == 0 {
 		return equation.result == score
 	}
 
-	if (equation.result < score) {
+	if equation.result < score {
 		return false
 	}
- 
+
 	leftover := calibration{equation.result, equation.values[1:]}
 	val := equation.values[0]
-	return scoreReached(leftover, score + val) || scoreReached(leftover, score * val)
+	return scoreReached(leftover, score+val) || scoreReached(leftover, score*val)
 }
 
 type calibration struct {
