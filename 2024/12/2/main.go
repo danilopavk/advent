@@ -62,13 +62,13 @@ func calculatePrice(garden map[point]rune, visited map[point]bool, plot point, x
 
 			for i, next := range next(plot) {
 				var nextFence fence
-				if i % 2 == 0 {
+				if i%2 == 0 {
 					nextFence = fence{next, plot}
 				} else {
 					nextFence = fence{plot, next}
 				}
 
-				if perimeter[nextFence]  || nextBfs[next] || visitedNow[next] {
+				if perimeter[nextFence] || nextBfs[next] || visitedNow[next] {
 					continue
 				}
 
@@ -92,7 +92,7 @@ func sides(perimeter map[fence]bool) int {
 	yCrosses := make(map[int]map[int]bool)
 
 	for fence, _ := range perimeter {
-		if  _, exists := yCrosses[fence.a.y]; !exists {
+		if _, exists := yCrosses[fence.a.y]; !exists {
 			yCrosses[fence.a.y] = make(map[int]bool)
 		}
 		if _, exists := xCrosses[fence.a.x]; !exists {
@@ -117,13 +117,13 @@ func disconnected(lines map[int]map[int]bool, opposites map[int]map[int]bool) in
 		}
 		for y, _ := range vals {
 			// crosses up or down
-			if opposites[y][x] || opposites[y + 1][x] {
+			if opposites[y][x] || opposites[y+1][x] {
 				sides++
 			}
 		}
 	}
 	return sides
-} 
+}
 
 func next(plot point) []point {
 	return []point{
