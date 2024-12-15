@@ -21,17 +21,25 @@ func main() {
 	robots := []robot{}
 	for scanner.Scan() {
 		robot := parseRobot(scanner.Text())
-		robot = move(robot, 100, x, y)
 		robots = append(robots, robot)
 	}
-	halfX := x / 2
-	halfY := y / 2
-	a := countIn(robots, 0, halfX-1, 0, halfY-1)
-	b := countIn(robots, 0, halfX-1, halfY+1, y-1)
-	c := countIn(robots, halfX+1, x-1, 0, halfY-1)
-	d := countIn(robots, halfX+1, x-1, halfY+1, y-1)
+	score := safetyScore(robots, x, y)
+	best := 0
+	for i := 1; i < 10_000; i++ {
+		newRobots := []robot{}
+		for _, robot := range robots {
+			newRobots = append(newRobots, move(robot, 1, x, y))
+		}
+		robots = newRobots
 
-	fmt.Println(a * b * c * d)
+		newScore := safetyScore(robots, x, y)
+		if newScore > 0 && newScore < score {
+			best = i
+			score = newScore
+		}
+	}
+
+	fmt.Println(best)
 }
 
 func parseRobot(input string) robot {
@@ -67,6 +75,16 @@ func move(robot robot, moves int, xLength int, yLength int) robot {
 	robot.y = y
 
 	return robot
+}
+
+func safetyScore(robots []robot, x int, y int) int {
+	halfX := x / 2
+	halfY := y / 2
+	a := countIn(robots, 0, halfX-1, 0, halfY-1)
+	b := countIn(robots, 0, halfX-1, halfY+1, y-1)
+	c := countIn(robots, halfX+1, x-1, 0, halfY-1)
+	d := countIn(robots, halfX+1, x-1, halfY+1, y-1)
+	return a * b * c * d
 }
 
 func countIn(robots []robot, fromX, toX, fromY, toY int) int {
