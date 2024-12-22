@@ -24,7 +24,7 @@ func main() {
 		if len(corrupted) < 1024 {
 			continue
 		}
-		if (!hasExit(corrupted)) {
+		if !hasExit(corrupted) {
 			fmt.Println(newCorrupted)
 			break
 		}
