@@ -67,19 +67,6 @@ func getA(program []int) int {
 	return min
 }
 
-func combo(instruction, a, b, c int) int {
-	switch instruction {
-	case 4:
-		return a
-	case 5:
-		return b
-	case 6:
-		return c
-	default:
-		return instruction
-	}
-}
-
 func parseProgram(line string) []int {
 	trimmed := line[9:]
 	parts := strings.Split(trimmed, ",")
