@@ -33,21 +33,21 @@ func main() {
 	minSaved := 100
 	saved := 0
 	for from := minSaved; from <= distances[end]; from++ {
-		for to := 0; to <= from - minSaved; to++ {
+		for to := 0; to <= from-minSaved; to++ {
 			fromCell := distancesInversed[from]
 			toCell := distancesInversed[to]
 
 			xDiff := abs(fromCell.x, toCell.x)
 			yDiff := abs(fromCell.y, toCell.y)
 			distance := xDiff + yDiff
-			if distance > 20  {
+			if distance > 20 {
 				continue
 			}
 
 			newPath := distances[end] - from + to + distance
-			if distances[end] - newPath >= minSaved {
+			if distances[end]-newPath >= minSaved {
 				saved++
-			} 
+			}
 		}
 	}
 
@@ -100,8 +100,8 @@ func parse(line string, start *cell, end *cell, path map[cell]bool, y int) {
 
 func (path cheat) neighbours(x int, y int) []cell {
 	last := path.last
-	neighbours :=  []cell{}
-	candidates := []cell{ 	
+	neighbours := []cell{}
+	candidates := []cell{
 		{last.x + 1, last.y},
 		{last.x - 1, last.y},
 		{last.x, last.y + 1},
@@ -120,7 +120,7 @@ func (path cheat) neighbours(x int, y int) []cell {
 	}
 
 	return neighbours
-} 
+}
 
 func (current cell) next(path map[cell]bool, previous cell, end cell) cell {
 	candidates := []cell{
@@ -159,8 +159,8 @@ func asString(first cell, last cell) string {
 }
 
 type cheat struct {
-	first cell
-	last cell
+	first   cell
+	last    cell
 	visited map[cell]bool
 }
 
