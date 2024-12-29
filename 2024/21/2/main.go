@@ -33,41 +33,41 @@ func main() {
 
 	complexities := 0
 
-	directionalMoves := map[rune]map[rune]string {
+	directionalMoves := map[rune]map[rune]string{
 		'<': {
-				'^': ">^A",
-				'A': ">>^A",
-				'v': ">A",
-				'>': ">>A",
-				'<': "A",
+			'^': ">^A",
+			'A': ">>^A",
+			'v': ">A",
+			'>': ">>A",
+			'<': "A",
 		},
 		'^': {
-				'<': "v<A",
-				'A': ">A",
-				'v': "vA",
-				'>': "v>A",
-				'^': "A",
+			'<': "v<A",
+			'A': ">A",
+			'v': "vA",
+			'>': "v>A",
+			'^': "A",
 		},
 		'v': {
-				'<': "<A",
-				'A': "^>A",
-				'^': "^A",
-				'>': ">A",
-				'v': "A",
+			'<': "<A",
+			'A': "^>A",
+			'^': "^A",
+			'>': ">A",
+			'v': "A",
 		},
 		'A': {
-				'<': "v<<A",
-				'^': "<A",
-				'v': "<vA",
-				'>': "vA",
-				'A': "A",
+			'<': "v<<A",
+			'^': "<A",
+			'v': "<vA",
+			'>': "vA",
+			'A': "A",
 		},
 		'>': {
-				'<': "<<A",
-				'A': "^A",
-				'v': "<A",
-				'^': "<^A",
-				'>': "A",
+			'<': "<<A",
+			'A': "^A",
+			'v': "<A",
+			'^': "<^A",
+			'>': "A",
 		},
 	}
 
@@ -76,10 +76,10 @@ func main() {
 		directions := moveDirections(input, numericalMoves)
 
 		length := calculateLength(directions, directionalMoves, 0, map[cacheKey]int{})
-		
+
 		numericalInput, _ := strconv.Atoi(input[:3])
 		complexity := numericalInput * length
-		
+
 		complexities += complexity
 	}
 
@@ -98,17 +98,17 @@ func calculateLength(section string, directionalMoves map[rune]map[rune]string, 
 
 	length := 0
 	from := 'A'
-	for _, to:= range section {
+	for _, to := range section {
 		if from == to {
 			length += 1
 		} else {
 			nextSection := directionalMoves[from][to]
-			length += calculateLength(nextSection, directionalMoves, depth + 1, cache)
+			length += calculateLength(nextSection, directionalMoves, depth+1, cache)
 		}
 		from = to
 	}
 
-	cache[memoVal] = length 
+	cache[memoVal] = length
 	return length
 
 }
@@ -139,7 +139,7 @@ func expandNumericalMoves(pads map[rune]cell) map[rune]map[rune]string {
 				continue
 			}
 
-			if cellFrom.y == 3  && cellTo.x == 0 {
+			if cellFrom.y == 3 && cellTo.x == 0 {
 				code += upDown(cellFrom, cellTo)
 				code += leftRight(cellFrom, cellTo)
 				code += "A"
@@ -175,30 +175,30 @@ func expandNumericalMoves(pads map[rune]cell) map[rune]map[rune]string {
 }
 
 func leftRight(from cell, to cell) string {
-	code := ""	
+	code := ""
 	if from.x > to.x {
-		for i := 0; i < from.x - to.x; i++ {
+		for i := 0; i < from.x-to.x; i++ {
 			code += "<"
 		}
 	} else {
-		for i := 0; i < to.x - from.x; i++ {
+		for i := 0; i < to.x-from.x; i++ {
 			code += ">"
 		}
-	}		
+	}
 	return code
 }
 
 func upDown(from cell, to cell) string {
-	code := ""	
+	code := ""
 	if from.y > to.y {
-		for i := 0; i < from.y - to.y; i++ {
+		for i := 0; i < from.y-to.y; i++ {
 			code += "^"
 		}
 	} else {
-		for i := 0; i < to.y - from.y; i++ {
+		for i := 0; i < to.y-from.y; i++ {
 			code += "v"
 		}
-	}		
+	}
 	return code
 }
 
@@ -219,5 +219,5 @@ type cell struct {
 
 type cacheKey struct {
 	section string
-	depth int
+	depth   int
 }
