@@ -3,3 +3,6 @@
 
 (library
  (name files))
+
+(library
+ (name day2))
