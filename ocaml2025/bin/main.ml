@@ -1,3 +1,3 @@
 let () =
-  Ocaml2025.Files.read_single Ocaml2025.Day2.sum_invalids
+  Ocaml2025.Files.read_single Ocaml2025.Day2.sum_invalids 2
   |> string_of_int |> print_endline
