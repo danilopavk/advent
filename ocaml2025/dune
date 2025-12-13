@@ -6,3 +6,9 @@
 
 (library
  (name day2))
+
+(library
+ (name day3))
+
+(library
+ (name number_util))

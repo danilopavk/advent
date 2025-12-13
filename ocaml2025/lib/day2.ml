@@ -11,7 +11,7 @@ let range until =
   aux 1 []
 
 let invalid n partition_size =
-  let digits = string_of_int n |> String.to_seq |> List.of_seq in
+  let digits = Number_util.digits_of_int n in
   if List.length digits mod partition_size > 0 then false
   else
     match parts digits partition_size with
