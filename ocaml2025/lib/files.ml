@@ -21,7 +21,9 @@ let read_map_fold init map_fn fold_fn =
   let ic = open_in "input.txt" in
 
   let rec read_fold_rec acc =
-    try read_fold_rec (input_line ic |> map_fn |> (fun item -> fold_fn item acc)) with
+    try
+      read_fold_rec (input_line ic |> map_fn |> fun item -> fold_fn item acc)
+    with
     | End_of_file -> acc
     | e -> raise e
   in

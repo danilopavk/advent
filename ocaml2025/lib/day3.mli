@@ -1,1 +1,1 @@
-val score: string -> int
+val score : string -> int -> int
