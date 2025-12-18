@@ -1,2 +1,19 @@
 (library
- (name ocaml2025))
+ (name advent)
+ (modules day1 day2 day3 day4)
+ (libraries util grid))
+
+(library
+ (name util)
+ (modules arith files)
+ (wrapped false))
+
+(library
+ (name grid)
+ (modules grid)
+ (wrapped false))
+
+(library
+ (name ocaml2025)
+ (modules)
+ (libraries advent util grid))
