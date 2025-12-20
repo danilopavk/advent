@@ -14,21 +14,39 @@ let has_cell grid (cell : Grid.cell) =
   | Some row -> if IntSet.mem cell.y row then 1 else 0
   | None -> 0
   
-let cell_score grid (cell : Grid.cell) =
+let cell_approachable grid (cell : Grid.cell) =
   List.fold_left (fun acc neighbor -> acc + (has_cell grid neighbor)) 0 (Grid.neighbors cell)
-  |> (fun score -> if score > 3 then 0 else 1)
+  |> (fun score -> score < 4)
 
 let line_score grid x =
   let rec line_score_rec line =
     match line with
-    | [] -> 0
-    | first :: rest -> (cell_score grid { x=x; y=first }) + (line_score_rec rest)
+    | [] -> []
+    | first :: rest when (cell_approachable grid {x=x; y=first}) -> ({x=x; y=first} : Grid.cell) ::  (line_score_rec rest)
+    | _ :: rest -> line_score_rec rest
   in
   match Files.IntMap.find_opt x grid with
   | Some vals -> IntSet.to_list vals |> line_score_rec
-  | None -> 0
+  | None -> []
 
-let score grid =
+let find_approachable grid =
   Files.IntMap.bindings grid
   |> List.map (fun (key, _value) -> line_score grid key)
-  |> List.fold_left (+) 0
+  |> List.concat
+
+let remove_cell grid (cell : Grid.cell) =
+  match Files.IntMap.find_opt cell.x grid with
+  | Some vals -> (match IntSet.remove cell.y vals with
+    | new_set when IntSet.is_empty new_set -> Files.IntMap.remove cell.x grid
+    | new_set -> Files.IntMap.add cell.x new_set grid)
+  | None -> grid
+
+let remove_cells grid cells = List.fold_left remove_cell grid cells
+
+let score grid = find_approachable grid |> List.length
+
+let rec score_rec grid =
+  let cells_to_remove = find_approachable grid in
+  match cells_to_remove with
+  | 0 -> 0
+  | n -> n + (remove_cells grid cells_to_remove |> score_rec)
