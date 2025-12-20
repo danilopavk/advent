@@ -1,17 +1,15 @@
-module IntSet = Set.Make(Int)
-
 let rec find_monkeys chars n =
   match chars with
-  | [] -> IntSet.empty
-  | first :: rest when first = '@' -> IntSet.add n (find_monkeys rest (n + 1))
+  | [] -> Types.IntSet.empty
+  | first :: rest when first = '@' -> Types.IntSet.add n (find_monkeys rest (n + 1))
   | _ :: rest -> find_monkeys rest (n + 1)
 
 let parse_line line =
   String.to_seq line |> List.of_seq |> fun chars -> find_monkeys chars 0
 
 let has_cell grid (cell : Grid.cell) =
-  match Files.IntMap.find_opt cell.x grid with
-  | Some row -> if IntSet.mem cell.y row then 1 else 0
+  match Types.IntMap.find_opt cell.x grid with
+  | Some row -> if Types.IntSet.mem cell.y row then 1 else 0
   | None -> 0
   
 let cell_approachable grid (cell : Grid.cell) =
@@ -25,20 +23,20 @@ let line_score grid x =
     | first :: rest when (cell_approachable grid {x=x; y=first}) -> ({x=x; y=first} : Grid.cell) ::  (line_score_rec rest)
     | _ :: rest -> line_score_rec rest
   in
-  match Files.IntMap.find_opt x grid with
-  | Some vals -> IntSet.to_list vals |> line_score_rec
+  match Types.IntMap.find_opt x grid with
+  | Some vals -> Types.IntSet.to_list vals |> line_score_rec
   | None -> []
 
 let find_approachable grid =
-  Files.IntMap.bindings grid
+  Types.IntMap.bindings grid
   |> List.map (fun (key, _value) -> line_score grid key)
   |> List.concat
 
 let remove_cell grid (cell : Grid.cell) =
-  match Files.IntMap.find_opt cell.x grid with
-  | Some vals -> (match IntSet.remove cell.y vals with
-    | new_set when IntSet.is_empty new_set -> Files.IntMap.remove cell.x grid
-    | new_set -> Files.IntMap.add cell.x new_set grid)
+  match Types.IntMap.find_opt cell.x grid with
+  | Some vals -> (match Types.IntSet.remove cell.y vals with
+    | new_set when Types.IntSet.is_empty new_set -> Types.IntMap.remove cell.x grid
+    | new_set -> Types.IntMap.add cell.x new_set grid)
   | None -> grid
 
 let remove_cells grid cells = List.fold_left remove_cell grid cells
@@ -47,6 +45,6 @@ let score grid = find_approachable grid |> List.length
 
 let rec score_rec grid =
   let cells_to_remove = find_approachable grid in
-  match cells_to_remove with
+  match List.length cells_to_remove with
   | 0 -> 0
   | n -> n + (remove_cells grid cells_to_remove |> score_rec)

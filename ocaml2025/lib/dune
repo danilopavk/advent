@@ -5,7 +5,7 @@
 
 (library
  (name util)
- (modules arith files)
+ (modules arith files types)
  (wrapped false))
 
 (library
