@@ -1,11 +1,11 @@
 (library
  (name advent)
- (modules day1 day2 day3 day4)
+ (modules day1 day2 day3 day4 day5)
  (libraries util grid))
 
 (library
  (name util)
- (modules arith files types)
+ (modules arith files collections)
  (wrapped false))
 
 (library

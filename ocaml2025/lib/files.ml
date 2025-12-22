@@ -38,12 +38,11 @@ let read_and_index map_fn =
   let rec parse_to_grid grid index =
     try
       let grid_value = input_line ic |> map_fn in
-      parse_to_grid (Types.IntMap.add index grid_value grid) (index + 1)
+      parse_to_grid (Collections.IntMap.add index grid_value grid) (index + 1)
     with
-      | End_of_file -> grid
-      | e -> raise e
+    | End_of_file -> grid
+    | e -> raise e
   in
-  let result = parse_to_grid Types.IntMap.empty 0 in
+  let result = parse_to_grid Collections.IntMap.empty 0 in
   close_in ic;
   result
-
